@@ -25,233 +25,44 @@ $(function() {
 	//	success - 성공했을때 실행
 	//	error - 실패했을때 실행
 	//   });
-	
-	$("#btn1").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"exam.do",
-			method:"get",
-			dataType:"text",
-			success: function(data) {
-				$("#result").append(data);
-			},
-			error: function() {
-				alret("읽기실패");
-			}
-			
-		});
+ 	$(document).on('click','#btn',function() {
+ 		var save = $(this);
+ 		var tbody = save.parent().parent().parent();
+ 		var td = tbody.children('.q');
+ 		alert(tbody.text);
 	});
-	$("#btn2").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"text.do",
-			method:"get",
-			dataType:"text",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>번호</th><th>이름</th><th>나이</th><th>주소</th></tr>"
-				table += "</thead>";
-				table += "<tbody>";
-				var person = data.split("/");
-				for(var k in person){
-					table +="<tr>";
-					var p_sell = person[k].split(",");
-					for (var k2 in p_sell) {
-						table += "<td>"+p_sell[k2]+"</td>";
-					}
-					table +="</tr>";
-				}
-				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			
-			error: function() {
-				alret("읽기실패");
-			}
-			
-		});
-	});
-	//태그이름불러오기
-	$("#btn3").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"xml01.do",
-			method:"get",
-			dataType:"xml",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>이름</th><th>가격</th></tr>"
-				table += "</thead>";
-				table += "<tbody>";
-				$(data).find("product").each(function() {
-					table +="<tr>"
-					table+="<td>"+$(this).find("name").text()+"</td>";
-					table+="<td>"+$(this).find("price").text()+"</td>";
-					table +="</tr>"
-				});
-				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			
-			error: function() {
-				alret("읽기실패");
-			}
-			
-		});
-	});
-	//속성불러오기
-	$("#btn4").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"xml02.do",
-			method:"get",
-			dataType:"xml",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>이름</th><th>가격</th></tr>"
-				table += "</thead>";
-				table += "<tbody style='background-color:tomato'>";
-				$(data).find("product").each(function() {
-					table +="<tr>"
-					table+="<td>"+$(this).attr("name")+"</td>";
-					table+="<td>"+$(this).attr("price")+"</td>";
-					table +="</tr>"
-				});
-				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			error: function() {
-				alert("읽기실패");
-			}
-			
-		});
-	});
-	$("#btn5").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"xml03.do",
-			method:"get",
-			dataType:"xml",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>이름</th><th>가격</th></tr>"
-				table += "</thead>";
-				table += "<tbody style='background-color:yellow'>";
-				$(data).find("product").each(function() {
-					table +="<tr>"
-					table+="<td>"+$(this).text()+"</td>";
-					table+="<td>"+$(this).attr("price")+"</td>";
-					table +="</tr>"
-				});
-				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			error: function() {
-				alert("읽기실패");
-			}
-			
-		});
-	});
-	
 	$("#btn6").click(function() {
 		$("#result").empty();
 		$.ajax({
 			url:"xml04.do",
 			method:"get",
 			dataType:"xml",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>지역</th><th>온도</th><th>날씨</th><th>표기</th></tr>"
-				table += "</thead>";
-				table += "<tbody>";
-				$(data).find("local").each(function() {
-					table +="<tr>"
-					table+="<td>"+$(this).text()+"</td>";
-					table+="<td>"+$(this).attr("ta")+"</td>";
-					table+="<td>"+$(this).attr("desc")+"</td>";
-					table+="<td><img src='http://www.kma.go.kr/images/icon/NW/NB"+$(this).attr("icon")+".png'></td>";
-					table +="</tr>"
-				});
+			success: function(data) {	
+				var search = $("#search").val();
+				var table = "";
+				if (($(data).text()).indexOf(search)!=-1) {
+					$(data).find("item").each(function() {
+						if(($(this)/* .find("mainCategory") */.text()).indexOf(search)!=-1){
+							table+="<form id='post' method='post'>"
+						table+="<table>";
+					table+= "<tbody>";
+					table+="<tr><td><h2>카테고리</h2>"+$(this).find("mainCategory").text()+"</td></tr>";
+					table+="<tr><td class='q'><h2>질문</h2>"+$(this).find("question").text()+"</td></tr>";
+					table+="<tr><td><h2>답변</h2>"+$(this).find("answer").text()+"</td></tr>";
+					table+="<tr><td><input type='button' id='btn' value='저장' /></td></tr>";
 				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			error: function() {
-				alert("읽기실패")
-			}
-			
-		});
-	});
-	
-	$("#btn7").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"xml05.do",
-			method:"get",
-			dataType:"html",
-			success: function(data) {
-				$("#result").append(data);
-			},
-			error: function() {
-				alert("읽기실패")
-			}
-			
-		});
-	});
-	$("#btn8").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"json01.do",
-			method:"get",
-			dataType:"json",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>종류</th><th>가격</th></tr>"
-				table += "</thead>";
-				table += "<tbody>";
-				$.each(data, function() {
-					table+="<tr>";
-					table+="<td>"+this["name"]+"</td><td>"+this["price"]+"</td>";
-					table+="</tr>";
-				});
-				table += "</tbody></table>";
-			$("#result").append(table);
-			},
-			error: function() {
-				alert("읽기실패")
-			}
-			
-		});
-	});
-	
-	$("#btn9").click(function() {
-		$("#result").empty();
-		$.ajax({
-			url:"json02.do",
-			method:"get",
-			dataType:"json",
-			success: function(data) {
-				var table = "<table>";
-				table += "<thead>";
-				table+= "<tr><th>도서관이름</th><th>주소</th><th>전화번호</th></tr>"
-				table += "</thead>";
-				table += "<tbody>";
-				$.each(data, function() {
-					var row = this["row"];
-					$.each(row, function() {
-					table+="<tr>";
-					table+="<td>"+this["LBRRY_NAME"]+"</td>";
-					table+="<td>"+this["ADRES"]+"</td>";
-					table+="<td>"+this["TEL_NO"]+"</td>";
-					table+="</tr>";
+				table+="</form>"
+				table +="<br><br>";
+						} 
 					});
-				});
+				}else{
+					table+="<table>"
+					table+= "<tbody>";
+					table+="<tr><td><h2>관련된 자료가없습니다.</h2></td></tr>";
 				table += "</tbody></table>";
+				table +="<br><br>";
+				}
+				
 			$("#result").append(table);
 			},
 			error: function() {
@@ -260,21 +71,25 @@ $(function() {
 			
 		});
 	});
-})
+	
+})	
 </script>
 </head>
 <body>
-	<h2>Ajax 예제</h2>
+	<h2>API 테스트</h2>
 	<hr>
-	<button id="btn1">ajax텍스트예제</button>
+	<!-- <button id="btn1">ajax텍스트예제</button>
 	<button id="btn2">텍스트2</button>
 	<button id="btn3">xml01</button>
 	<button id="btn4">xml02</button>
-	<button id="btn5">xml03</button>
-	<button id="btn6">외부xml01</button>
-	<button id="btn7">외부xml02</button>
+	<button id="btn5">xml03</button> -->
+	<form id="myform" method="post">
+		<input type="text" placeholder="검색어를 입력해주세요" id="search">
+	<button id="btn6" type="button">검색</button>
+	</form>
+	<!-- <button id="btn7">외부xml02</button>
 	<button id="btn8">json연습</button>
-	<button id="btn9">json외부</button>
+	<button id="btn9">json외부</button> -->
 	<br>
 	<hr>
 	
