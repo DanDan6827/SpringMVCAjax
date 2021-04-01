@@ -1,22 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	div{text-align: center;}
-	table{width: 500px; margin: 0 auto;}
+	/* div{text-align: center;} */
+	.table{width: 500px; margin: 0 auto;}
 	table,th,td{
 	border: 1px solid skyblue;
 	text-align: center;
 	border-collapse: collapse;
 	}
+	#box{position: relative; width: 500px; height: 500px;}
+	.o{position: absolute; height: 30px; width: 150px; z-index: 9;}
+	.menu{position: absolute; width: 300px; margin-left: 300px;}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function() {
+
+	$(document).on('click','button',function() {
+		$('.menu').css('display','none');
+	    $(this).next().css('display','');
+	});
 	// $.ajax({
 	//	url -서버주소
 	//	method - 전달방식(get,post)
@@ -25,6 +34,7 @@ $(function() {
 	//	success - 성공했을때 실행
 	//	error - 실패했을때 실행
 	//   });
+
  	$(document).on('click','#btn',function() {
  		var save = $(this);
  		var tbody = save.parent().parent().parent();
@@ -47,7 +57,7 @@ $(function() {
 					$(data).find("item").each(function() {
 						if(($(this)/* .find("mainCategory") */.text()).indexOf(search)!=-1){
 							table+="<form id='post' method='post'>"
-						table+="<table>";
+						table+="<table class='table'>";
 					table+= "<tbody>";
 					table+="<tr><td><h2>카테고리</h2>"+$(this).find("mainCategory").text()+"</td></tr>";
 					table+="<tr><td colspan='2'><h2>질문</td></tr>";
@@ -97,8 +107,40 @@ $(function() {
 	<button id="btn9">json외부</button> -->
 	<br>
 	<hr>
-	
 	<div id="result"></div>
-	
+	<hr>
+	<div id="box">
+	<button id="m1" class="o" style="float: left;">메뉴1</button>
+	<div class="menu" style="display: block;">
+	<table class="tab" style="width: 300px; float: left;">
+	<caption><h2>회원정보목록</h2></caption>
+	<thead><tr><th>이름</th><th>아이디</th><th>닉네임</th></tr></thead>
+	<tr><td>홍길동1</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동2</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동3</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동4</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동5</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동6</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동7</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동8</td><td>adfs12</td><td>gogo</td></tr>
+	</table>
+	</div>
+	<button id="m2" class="o" style="float: left;margin-top: 30px;">메뉴2</button>
+	<div class="menu" style="display: none;">
+	<table class="tab" style="width: 300px; float: left;">
+	<caption><h2>제한회원 정보목록</h2></caption>
+	<thead><tr><th>이름</th><th>아이디</th><th>닉네임</th></tr></thead>
+	<tr><td>홍길동2</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동3</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동4</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동41</td><td>adfs12</td><td>gogo</td></tr>
+	<tr><td>홍길동22</td><td>adfs12</td><td>gogo</td></tr>
+	</table>
+	</div>
+	</div>
+
 </body>
 </html>
