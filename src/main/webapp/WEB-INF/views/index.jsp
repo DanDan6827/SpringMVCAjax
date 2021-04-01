@@ -28,8 +28,11 @@ $(function() {
  	$(document).on('click','#btn',function() {
  		var save = $(this);
  		var tbody = save.parent().parent().parent();
- 		var td = tbody.children('.q');
- 		alert(tbody.text);
+ 		var tr = tbody.children();
+ 		var q = tr.eq(2).text();
+ 		var a = tr.eq(4).text();
+ 		alert("질문 :"+q);
+ 		alert("답변 :"+a);
 	});
 	$("#btn6").click(function() {
 		$("#result").empty();
@@ -47,8 +50,10 @@ $(function() {
 						table+="<table>";
 					table+= "<tbody>";
 					table+="<tr><td><h2>카테고리</h2>"+$(this).find("mainCategory").text()+"</td></tr>";
-					table+="<tr><td class='q'><h2>질문</h2>"+$(this).find("question").text()+"</td></tr>";
-					table+="<tr><td><h2>답변</h2>"+$(this).find("answer").text()+"</td></tr>";
+					table+="<tr><td colspan='2'><h2>질문</td></tr>";
+					table+="<tr><td>"+$(this).find("question").text()+"</td></tr>";
+					table+="<tr><td colspan='2'><h2>답변</td></tr>";
+					table+="<tr><td>"+$(this).find("answer").text()+"</td></tr>";
 					table+="<tr><td><input type='button' id='btn' value='저장' /></td></tr>";
 				table += "</tbody></table>";
 				table+="</form>"
